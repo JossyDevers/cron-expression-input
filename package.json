@@ -1,0 +1,11 @@
+{
+  "name": "cron-expresion-js",
+  "version": "1.0.0",
+  "description": "Cron expresion UI library",
+  "main": "CronComponent.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jossy Devers",
+  "license": "MIT"
+}

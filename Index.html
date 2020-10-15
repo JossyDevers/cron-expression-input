@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      /* CronInput */
+      .cronContainer {
+        position: relative;
+      }
+
+      .cronContainer input[type="text"] {
+        width: 98%;
+        box-shadow: none;
+      }
+
+      .cronContainer button {
+        position: absolute;
+        right: 0px;
+        border-top-left-radius: 0px;
+        border-bottom-left-radius: 0px;
+      }
+
+      .cronContainer button:hover,
+      .cronContainer button:active,
+      .cronContainer button:focus {
+        outline: none !important;
+      }
+
+      /*! CSS Used from: https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css */
+      a {
+        background-color: transparent;
+      }
+      a:active,
+      a:hover {
+        outline: 0;
+      }
+      small {
+        font-size: 80%;
+      }
+      button,
+      input,
+      select {
+        color: inherit;
+        font: inherit;
+        margin: 0;
+      }
+      button {
+        overflow: visible;
+      }
+      button,
+      select {
+        text-transform: none;
+      }
+      button {
+        -webkit-appearance: button;
+        cursor: pointer;
+      }
+      button::-moz-focus-inner,
+      input::-moz-focus-inner {
+        border: 0;
+        padding: 0;
+      }
+      input {
+        line-height: normal;
+      }
+      input[type="checkbox"],
+      input[type="radio"] {
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        padding: 0;
+      }
+      @media print {
+        *,
+        :after,
+        :before {
+          color: #000 !important;
+          text-shadow: none !important;
+          background: 0 0 !important;
+          -webkit-box-shadow: none !important;
+          box-shadow: none !important;
+        }
+        a,
+        a:visited {
+          text-decoration: underline;
+        }
+        a[href]:after {
+          content: " (" attr(href) ")";
+        }
+        a[href^="#"]:after {
+          content: "";
+        }
+      }
+      * {
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+      }
+      :after,
+      :before {
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+      }
+      button,
+      input,
+      select {
+        font-family: inherit;
+        font-size: inherit;
+        line-height: inherit;
+      }
+      a {
+        color: #337ab7;
+        text-decoration: none;
+      }
+      a:focus,
+      a:hover {
+        color: #23527c;
+        text-decoration: underline;
+      }
+      a:focus {
+        outline: 5px auto -webkit-focus-ring-color;
+        outline-offset: -2px;
+      }
+      small {
+        font-size: 85%;
+      }
+      .text-muted {
+        color: #777;
+      }
+      ul {
+        margin-top: 0;
+        margin-bottom: 10px;
+      }
+      label {
+        display: inline-block;
+        max-width: 100%;
+        margin-bottom: 5px;
+        font-weight: 700;
+      }
+      input[type="checkbox"],
+      input[type="radio"] {
+        margin: 4px 0 0;
+        margin-top: 1px\9;
+        line-height: normal;
+      }
+      input[type="checkbox"]:focus,
+      input[type="radio"]:focus {
+        outline: 5px auto -webkit-focus-ring-color;
+        outline-offset: -2px;
+      }
+      .form-control {
+        display: block;
+        width: 100%;
+        height: 34px;
+        padding: 6px 12px;
+        font-size: 14px;
+        line-height: 1.42857143;
+        color: #555;
+        background-color: #fff;
+        background-image: none;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        -webkit-transition: border-color ease-in-out 0.15s,
+          box-shadow ease-in-out 0.15s;
+        -o-transition: border-color ease-in-out 0.15s,
+          box-shadow ease-in-out 0.15s;
+        -webkit-transition: border-color ease-in-out 0.15s,
+          -webkit-box-shadow ease-in-out 0.15s;
+        transition: border-color ease-in-out 0.15s,
+          -webkit-box-shadow ease-in-out 0.15s;
+        transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+        transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s,
+          -webkit-box-shadow ease-in-out 0.15s;
+      }
+      .form-control:focus {
+        border-color: #66afe9;
+        outline: 0;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075),
+          0 0 8px rgba(102, 175, 233, 0.6);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075),
+          0 0 8px rgba(102, 175, 233, 0.6);
+      }
+      .form-control::-moz-placeholder {
+        color: #999;
+        opacity: 1;
+      }
+      .form-control:-ms-input-placeholder {
+        color: #999;
+      }
+      .form-control::-webkit-input-placeholder {
+        color: #999;
+      }
+      .form-control::-ms-expand {
+        background-color: transparent;
+        border: 0;
+      }
+      .form-group {
+        margin-bottom: 15px;
+      }
+      .btn {
+        display: inline-block;
+        margin-bottom: 0;
+        font-weight: 400;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        -ms-touch-action: manipulation;
+        touch-action: manipulation;
+        cursor: pointer;
+        background-image: none;
+        border: 1px solid transparent;
+        padding: 6px 12px;
+        font-size: 14px;
+        line-height: 1.42857143;
+        border-radius: 4px;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+      .btn:active:focus,
+      .btn:focus {
+        outline: 5px auto -webkit-focus-ring-color;
+        outline-offset: -2px;
+      }
+      .btn:focus,
+      .btn:hover {
+        color: #333;
+        text-decoration: none;
+      }
+      .btn:active {
+        background-image: none;
+        outline: 0;
+        -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+        box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+      }
+      .btn-success {
+        color: #fff;
+        background-color: #5cb85c;
+        border-color: #4cae4c;
+      }
+      .btn-success:focus {
+        color: #fff;
+        background-color: #449d44;
+        border-color: #255625;
+      }
+      .btn-success:hover {
+        color: #fff;
+        background-color: #449d44;
+        border-color: #398439;
+      }
+      .btn-success:active {
+        color: #fff;
+        background-color: #449d44;
+        background-image: none;
+        border-color: #398439;
+      }
+      .btn-success:active:focus,
+      .btn-success:active:hover {
+        color: #fff;
+        background-color: #398439;
+        border-color: #255625;
+      }
+      .btn-warning {
+        color: #fff;
+        background-color: #f0ad4e;
+        border-color: #eea236;
+      }
+      .btn-warning:focus {
+        color: #fff;
+        background-color: #ec971f;
+        border-color: #985f0d;
+      }
+      .btn-warning:hover {
+        color: #fff;
+        background-color: #ec971f;
+        border-color: #d58512;
+      }
+      .btn-warning:active {
+        color: #fff;
+        background-color: #ec971f;
+        background-image: none;
+        border-color: #d58512;
+      }
+      .btn-warning:active:focus,
+      .btn-warning:active:hover {
+        color: #fff;
+        background-color: #d58512;
+        border-color: #985f0d;
+      }
+      .btn-danger {
+        color: #fff;
+        background-color: #d9534f;
+        border-color: #d43f3a;
+      }
+      .btn-danger:focus {
+        color: #fff;
+        background-color: #c9302c;
+        border-color: #761c19;
+      }
+      .btn-danger:hover {
+        color: #fff;
+        background-color: #c9302c;
+        border-color: #ac2925;
+      }
+      .btn-danger:active {
+        color: #fff;
+        background-color: #c9302c;
+        background-image: none;
+        border-color: #ac2925;
+      }
+      .btn-danger:active:focus,
+      .btn-danger:active:hover {
+        color: #fff;
+        background-color: #ac2925;
+        border-color: #761c19;
+      }
+      .fade {
+        opacity: 0;
+        -webkit-transition: opacity 0.15s linear;
+        -o-transition: opacity 0.15s linear;
+        transition: opacity 0.15s linear;
+      }
+      .nav {
+        padding-left: 0;
+        margin-bottom: 0;
+        list-style: none;
+      }
+      .nav > li {
+        position: relative;
+        display: block;
+      }
+      .nav > li > a {
+        position: relative;
+        display: block;
+        padding: 10px 15px;
+      }
+      .nav > li > a:focus,
+      .nav > li > a:hover {
+        text-decoration: none;
+        background-color: #eee;
+      }
+      .nav-tabs {
+        border-bottom: 1px solid #ddd;
+      }
+      .nav-tabs > li {
+        float: left;
+        margin-bottom: -1px;
+      }
+      .nav-tabs > li > a {
+        margin-right: 2px;
+        line-height: 1.42857143;
+        border: 1px solid transparent;
+        border-radius: 4px 4px 0 0;
+      }
+      .nav-tabs > li > a:hover {
+        border-color: #eee #eee #ddd;
+      }
+      .tab-content > .tab-pane {
+        display: none;
+      }
+      .tab-content > .active {
+        display: block;
+      }
+      .panel {
+        margin-bottom: 20px;
+        background-color: #fff;
+        border: 1px solid transparent;
+        border-radius: 4px;
+        -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+      }
+      .panel-body {
+        padding: 15px;
+      }
+      .panel-heading {
+        padding: 10px 15px;
+        border-bottom: 1px solid transparent;
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+      }
+      .panel-default {
+        border-color: #ddd;
+      }
+      .panel-default > .panel-heading {
+        color: #333;
+        background-color: #f5f5f5;
+        border-color: #ddd;
+      }
+      .modal-body {
+        position: relative;
+        padding: 15px;
+      }
+      .modal-footer {
+        padding: 15px;
+        text-align: right;
+        border-top: 1px solid #e5e5e5;
+      }
+      .modal-footer .btn + .btn {
+        margin-bottom: 0;
+        margin-left: 5px;
+      }
+      .modal-footer:after,
+      .modal-footer:before,
+      .nav:after,
+      .nav:before,
+      .panel-body:after,
+      .panel-body:before {
+        display: table;
+        content: " ";
+      }
+      .modal-footer:after,
+      .nav:after,
+      .panel-body:after {
+        clear: both;
+      }
+      .pull-left {
+        float: left !important;
+      }
+      /*! CSS Used from: Embedded */
+      .cronContainer {
+        position: relative;
+      }
+      .cronContainer input[type="text"] {
+        width: 98%;
+        box-shadow: none;
+      }
+      .cronContainer button {
+        position: absolute;
+        right: 0px;
+        border-top-left-radius: 0px;
+        border-bottom-left-radius: 0px;
+      }
+      .cronContainer button:hover,
+      .cronContainer button:active,
+      .cronContainer button:focus {
+        outline: none !important;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <cron-input></cron-input>
+      <cron-input></cron-input>
+    </div>
+
+    <script>
+      class CronComponent extends HTMLElement {
+        constructor() {
+          super();
+        }
+        Init(state) {
+          this.state = state;
+          this.state.self.value = this.state.defaultValue || "";
+
+          if (this.state.props != undefined) {
+            this.state.props.forEach((p) => {
+              this.state.self[p] = state.self.getAttribute(p);
+            });
+          }
+
+          this.Create(this.state.self, this.state.template);
+          this.Mount();
+        }
+        Create(self, template) {
+          var div = document.createElement("div");
+          div.innerHTML = template;
+          self.appendChild(div);
+        }
+        Mount() {
+          this.addHasZero();
+          this.addSelectOptions("every");
+          this.addSelectOptions("step");
+          this.addSelectOptions("rangeMin");
+          this.addSelectOptions("rangeMax");
+          this.addSpesificOptions("spesific");
+          var choise = this.state.self.getElements('*[v-model=choise]');
+        }
+        addHasZero() {
+          if(this.state.self.hasZero != "true") {
+            this.getElements('*[v-if=hasZero]').forEach(function(element) {
+              element.remove();
+            });
+          }
+        }
+        addSelectOptions(attr) {
+          var step = this.getElement('*[v-model=' + attr + ']');
+          console.warn(step);
+          console.dir('*[v-model=' + attr + ']');
+          for(var i = 1; i <= this.state.self[attr]; i++) {
+            var option = document.createElement("option");
+            option.innerText = i;
+            step.appendChild(option);
+          }
+        }
+        addSpesificOptions(attr) {
+          var spesific = this.state.self.getElement('*[v-model=' + attr + ']');
+          for(var i = 1; i <= this.state.self[attr]; i++) {
+            var option = document.createElement("div");
+            option.innerHTML = `
+                  <div style="margin: 10px;">
+                      <label class="check-container">
+                          <span>${i}</span>
+                          <input type="checkbox">
+                          <span class="checkmark"></span>
+                      </label>
+                  </div>
+                `;
+            spesific.appendChild(option);
+          }
+        }
+        getElements(className) {
+          return this.state.self.querySelectorAll(className);
+        }
+        getElement(className) {
+          return this.state.self.querySelector(className);
+        }
+        addEvent(className, event, handle) {
+          this.getElements(className).forEach((elem) => {
+            elem.addEventListener(event, function (e) {
+              handle(e.target);
+            });
+          });
+        }
+      }
+
+      class CronFieldsComponent extends CronComponent {
+        constructor() {
+          super();
+
+          this.Init({
+            self: this,
+            props: [
+              "input",
+              "hasZero",
+              "every",
+              "step",
+              "rangeMin",
+              "rangeMax",
+              "spesific",
+            ],
+            defaultValue: "*",
+            template: `
+                            <div>
+                                <form>
+                                    <div style="display: flex;">
+                                        <div class="panel panel-default" style="margin-right: 5px; width: 50%;">
+                                            <div class="panel-heading">
+                                                <div style="display: flex;">
+                                                    <input class="form-check-input" type="radio" name="choise" :value="1" v-model="choise">
+                                                    <span style="margin-left: 10px;">Step</span>
+                                                </div>
+                                            </div>
+                                            <div class="panel-body" style="display: flex !important;">
+                                                <div class="form-group" style="margin-right: 5px; width: 50%;">
+                                                    <label for="everySelect">Every</label>
+                                                    <select v-model="every" class="form-control" style="width: 100%;" :disabled="input.choise == 1 ? false : true">
+                                                        <option>*</option>
+                                                        <option v-if="hasZero">0</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group" style="margin-left: 5px; width: 50%;">
+                                                    <label for="stepSelect">Step</label>
+                                                    <select id="stepSelect" v-model="step" class="form-control" style="width: 100%;" :disabled="input.choise == 1 ? false : true">
+                                                        <option>*</option>
+                                                        <option v-if="hasZero">0</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel panel-default" style="margin-right: 5px; width: 50%;">
+                                            <div class="panel-heading">
+                                                <div style="display: flex;">
+                                                    <input class="form-check-input" type="radio" name="choise" :value="2" v-model="choise">
+                                                    <span style="margin-left: 10px;">Range</span>
+                                                </div>
+                                            </div>
+                                            <div class="panel-body">
+                                                <div class="form-group">
+                                                    <div style="display: flex;">
+                                                        <div style="width: 50%; margin-right: 5px;">
+                                                            <label class="form-check-label" for="exampleRadios1">Min</label>
+                                                            <select id="stepSelect" v-model="rangeMin" class="form-control" style="width: 100%;"
+                                                                    :disabled="input.choise == 2 ? false : true">
+                                                                <option v-if="hasZero">0</option>
+                                                            </select>
+                                                        </div>
+                                                        <div style="width: 50%; margin-right: 5px;">
+                                                            <label class="form-check-label" for="exampleRadios1">Max</label>
+                                                            <select id="stepSelect" v-model="rangeMax" class="form-control" style="width: 100%;"
+                                                                    :disabled="input.choise == 2 ? false : true">
+                                                                <option v-if="hasZero">0</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel panel-default" style="margin: 0px !important; padding: 0px !important;">
+                                        <div class="panel-heading">
+                                            <div style="display: flex;">
+                                                <input class="form-check-input" type="radio" name="choise" :value="3" v-model="choise">
+                                                <span style="margin-left: 10px;">Choise</span>
+                                            </div>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div v-model="spesific" class="form-group" style="display: flex !important; flex-wrap: wrap !important; margin: 0px !important; padding: 0px !important;">
+                                                <div v-if="hasZero" style="margin: 10px;">
+                                                    <label class="check-container">
+                                                        <span>0</span>
+                                                        <input type="checkbox" :value="0" :disabled="input.choise == 3 ? false : true">
+                                                        <span class="checkmark"></span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            `,
+          });
+        }
+        connectedCallback() {}
+      }
+
+      class CronInputComponent extends CronComponent {
+        constructor() {
+          super();
+
+          this.Init({
+            self: this,
+            template: `
+                            <div>
+                                <div class="cronInput">
+                                    <div class="cronContainer" style="display: flex;">
+                                        <input type="text" class="form-control" placeholder="Enter Cron">
+                                        <button type="button" class="cronButtonUI btn btn-warning" @click="openCronUI">UI</button>
+                                    </div>
+                                </div>
+                                <transition class="cronUI" v-if="showCronUI" name="modal" style="width: 200px !important; display: none; position: absolute;">
+                                    <div class="modal-mask">
+                                        <div class="modal-wrapper">
+                                            <div class="modal-container">
+                                                <div class="modal-body">
+                                                    <ul class="nav nav-tabs" role="tablist">
+                                                        <li class="nav-item">
+                                                            <a class="nav-link active" id="minuteItem" data-toggle="tab" role="tab" aria-controls="home" aria-selected="true" style="color: black;">Minutes</a>
+                                                        </li>
+                                                        <li class="nav-item">
+                                                            <a class="nav-link" id="hoursItem" data-toggle="tab" role="tab" aria-controls="profile" aria-selected="false" style="color: black;">Hours</a>
+                                                        </li>
+                                                        <li class="nav-item">
+                                                            <a class="nav-link" id="dayItem" data-toggle="tab" role="tab" aria-controls="contact" aria-selected="false" style="color: black;">Day of Month</a>
+                                                        </li>
+                                                        <li class="nav-item">
+                                                            <a class="nav-link" id="monthItem" data-toggle="tab" role="tab" aria-controls="contact" aria-selected="false" style="color: black;">Month</a>
+                                                        </li>
+                                                        <li class="nav-item">
+                                                            <a class="nav-link" id="dayOfWeekItem" data-toggle="tab" role="tab" aria-controls="contact" aria-selected="false" style="color: black;">Days of week</a>
+                                                        </li>
+                                                    </ul>
+                                                    <div class="tab-content" id="myTabContent" style="margin-top: 35px;">
+                                                        <div class="tab-pane active in" id="minuteTab" role="tabpanel" aria-labelledby="minuteTab">
+                                                            <cron-fields input="cron.minute" hasZero="true" every="59" step="59" rangeMin="59" rangeMax="59" spesific="59" />
+                                                        </div>
+                                                        <div class="tab-pane fade" id="hoursTab" role="tabpanel" aria-labelledby="hoursTab">
+                                                            <cron-fields input="cron.hour" hasZero="true" every="23" step="23" rangeMin="23" rangeMax="23" spesific="23" />
+                                                        </div>
+                                                        <div class="tab-pane fade" id="dayTab" role="tabpanel" aria-labelledby="dayTab">
+                                                            <cron-fields input="cron.dayOfMonth" every="31" step="31" rangeMin="31" rangeMax="31" spesific="31" />
+                                                        </div>
+                                                        <div class="tab-pane fade" id="monthTab" role="tabpanel" aria-labelledby="monthTab">
+                                                            <cron-fields input="cron.month" every="12" step="12" rangeMin="12" rangeMax="12" spesific="12" />
+                                                        </div>
+                                                        <div class="tab-pane fade" id="dayOfWeekTab" role="tabpanel" aria-labelledby="dayOfWeekTab">
+                                                            <cron-fields input="cron.dayOfWeek" hasZero="true" every="6" step="6" rangeMin="6" rangeMax="6" spesific="6" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                        `,
+          });
+
+          // Events
+          var self = this;
+
+          this.addEvent(".cronButtonUI", "click", function () {
+            var cronUI = self.getElement(".cronUI");
+
+            if (cronUI.getAttribute("style").includes("display: none")) {
+              cronUI.style = "";
+            } else {
+              cronUI.style = "display: none;";
+            }
+          });
+
+          this.addEvent("li > a", "click", function (self2) {
+            var index = 0;
+            self.getElements("li > a").forEach((elem, i) => {
+              elem.setAttribute("class", "nav-link");
+              if (elem == self2) index = i;
+            });
+            self2.setAttribute("class", "nav-link active");
+            var elements = self.getElements("cron-fields");
+            elements.forEach((elem, i) => {
+              elem.parentNode.setAttribute("class", 'tab-pane fade"');
+              if (elem == self2) index = i;
+            });
+            console.dir(elements);
+            elements[index].parentNode.setAttribute(
+              "class",
+              "tab-pane active in"
+            );
+          });
+        }
+        connectedCallback() {}
+      }
+
+      customElements.define("cron-input", CronInputComponent);
+      customElements.define("cron-fields", CronFieldsComponent);
+    </script>
+  </body>
+</html>
