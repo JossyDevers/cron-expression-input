@@ -1,0 +1,30 @@
+name: Main Workflow
+on:
+  push:
+    branches: [ master ]
+    
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      
+      - uses: actions/checkout@v2
+        
+      - name: 'Step #1 - Transpiler Action'
+        uses: jossydevers/transpiler-js@v1.0.0
+        with:
+          typename: 'transpile' 
+          directory: 'src/'
+          output: 'release/src/'
+          
+      - name: 'Step #2 - Minify Action'
+        uses: jossydevers/minify-action@v1.0.1
+        with:
+          directory: 'release/src/component.transpile.js'
+        
+      - name: 'Step #3 - Commit Action'
+        uses: stefanzweifel/git-auto-commit-action@v3.0.0
+        with:
+          commit_message: "Github Action: Pipeline Refactor"
+          branch: ${{ github.ref }}
+          
