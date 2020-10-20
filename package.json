@@ -1,16 +1,29 @@
 {
-  "name": "cron-expresion-js",
+  "name": "cron-expression-input",
   "version": "1.0.0",
-  "description": "Cron expresion UI library",
-  "main": "CronComponent.js",
+  "description": "Cron UI: input component to generate cron expressions easily and intuitively",
+  "main": "/release/src/cron-expression-input.min.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JossyDevers/cron-expression-input"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "webpack serve",
+    "build": "webpack --config webpack.config.js"
   },
   "author": "Jossy Devers",
   "license": "MIT",
+  "dependencies": {
+    "cron-validator": "^1.1.1"
+  },
   "devDependencies": {
     "@babel/cli": "^7.12.1",
     "@babel/core": "^7.12.3",
-    "@babel/preset-env": "^7.12.1"
+    "@babel/preset-env": "^7.12.1",
+    "babel-loader": "^8.1.0",
+    "html-webpack-plugin": "^4.5.0",
+    "webpack": "^5.1.3",
+    "webpack-cli": "^4.1.0",
+    "webpack-dev-server": "^3.11.0"
   }
 }
