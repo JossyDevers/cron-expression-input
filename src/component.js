@@ -30,6 +30,20 @@ class CronComponent extends HTMLElement {
       element.addEventListener(event, function (e) { handle(e.target); });
     });
   }
+  increaseBrightness(hex, percent) {
+    hex = hex.replace(/^\s*#|\s*$/g, '');
+
+    if(hex.length == 3) { hex = hex.replace(/(.)/g, '$1$1'); }
+
+    var r = parseInt(hex.substr(0, 2), 16);
+    var g = parseInt(hex.substr(2, 2), 16),
+    var b = parseInt(hex.substr(4, 2), 16);
+
+    return '#' +
+       ((0|(1<<8) + r + (256 - r) * percent / 100).toString(16)).substr(1) +
+       ((0|(1<<8) + g + (256 - g) * percent / 100).toString(16)).substr(1) +
+       ((0|(1<<8) + b + (256 - b) * percent / 100).toString(16)).substr(1);
+  }
 
 }
 
@@ -44,63 +58,65 @@ customElements.define("cron-fields", class extends CronComponent {
         "hasZero",
         "every"
       ],
-      template: `<div>
-                  <form>
-                      <div style='display: flex; height: 138px;'>
-                          <div class='panel panel-default' style='margin-right: 5px; width: 50%; height: 132px;'>
-                              <div class='panel-heading'>
-                                  <div style='display: flex;'> <input class='form-check-input' type='radio' name='choise' value='1'
-                                          match='choise' checked> <span style='margin-left: 10px;'>Step</span> </div>
-                              </div>
-                              <div class='panel-body' style='display: flex !important;'>
-                                  <div class='form-group' style='margin-right: 5px; width: 50%;'> <label
-                                          for='everySelect'>Every</label> <select match='every' class='form-control'
-                                          style='width: 100%;' :disabled='input.choise==1 ? false : true'>
-                                          <option>*</option>
-                                      </select> </div>
-                                  <div class='form-group' style='margin-left: 5px; width: 50%;'> <label for='stepSelect'>Step</label>
-                                      <select id='stepSelect' match='step' class='form-control' style='width: 100%;'
-                                          :disabled='input.choise==1 ? false : true'>
-                                          <option>*</option>
-                                      </select> </div>
-                              </div>
-                          </div>
-                          <div class='panel panel-default' style='margin-right: 5px; width: 50%; height: 132px;'>
-                              <div class='panel-heading'>
-                                  <div style='display: flex;'> <input class='form-check-input' type='radio' name='choise' value='2'
-                                          match='choise'> <span style='margin-left: 10px;'>Range</span> </div>
-                              </div>
-                              <div class='panel-body'>
-                                  <div class='form-group'>
-                                      <div style='display: flex;'>
-                                          <div style='width: 50%; margin-right: 5px;'> <label class='form-check-label'
-                                                  for='exampleRadios1'>Min</label> <select id='stepSelect' match='rangeMin'
-                                                  class='form-control' style='width: 100%;'
-                                                  :disabled='input.choise==2 ? false : true'>
-                                              </select> </div>
-                                          <div style='width: 50%; margin-right: 5px;'> <label class='form-check-label'
-                                                  for='exampleRadios1'>Max</label> <select id='stepSelect' match='rangeMax'
-                                                  class='form-control' style='width: 100%;'
-                                                  :disabled='input.choise==2 ? false : true'>
-                                              </select> </div>
-                                      </div>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                      <div class='panel panel-default' style='margin: 0px !important; padding: 0px !important; height: 240px;'>
-                          <div class='panel-heading'>
-                              <div style='display: flex;'> <input class='form-check-input' type='radio' name='choise' value='3'
-                                      match='choise'> <span style='margin-left: 10px;'>Choise</span> </div>
-                          </div>
-                          <div class='panel-body' style="padding-top: 6px !important;">
-                              <div match='spesific' class='form-group'
-                                  style='display: flex !important; flex-wrap: wrap !important; margin: 0px !important; padding: 0px !important;'>
-                              </div>
-                          </div>
-                      </div>
-                  </form>
-              </div>`,
+      template: `
+          <div>
+            <form>
+                <div style='display: flex; height: 138px;'>
+                    <div class='panel panel-default' style='margin-right: 2.5px; width: 50%; height: 132px;'>
+                        <div class='panel-heading'>
+                            <div style='display: flex;'> <input class='form-check-input' type='radio' name='choise' value='1'
+                                    match='choise' checked> <span style='margin-left: 10px;'>Step</span> </div>
+                        </div>
+                        <div class='panel-body' style='display: flex !important;'>
+                            <div class='form-group' style='margin-right: 5px; width: 50%;'> <label
+                                    for='everySelect'>Every</label> <select match='every' class='form-control'
+                                    style='width: 100%;' :disabled='input.choise==1 ? false : true'>
+                                    <option>*</option>
+                                </select> </div>
+                            <div class='form-group' style='margin-left: 5px; width: 50%;'> <label for='stepSelect'>Step</label>
+                                <select id='stepSelect' match='step' class='form-control' style='width: 100%;'
+                                    :disabled='input.choise==1 ? false : true'>
+                                    <option>*</option>
+                                </select> </div>
+                        </div>
+                    </div>
+                    <div class='panel panel-default' style='margin-left: 2.5px; width: 50%; height: 132px;'>
+                        <div class='panel-heading'>
+                            <div style='display: flex;'> <input class='form-check-input' type='radio' name='choise' value='2'
+                                    match='choise'> <span style='margin-left: 10px;'>Range</span> </div>
+                        </div>
+                        <div class='panel-body'>
+                            <div class='form-group'>
+                                <div style='display: flex;'>
+                                    <div style='width: 50%; margin-right: 5px;'> <label class='form-check-label'
+                                            for='exampleRadios1'>Min</label> <select id='stepSelect' match='rangeMin'
+                                            class='form-control' style='width: 100%;'
+                                            :disabled='input.choise==2 ? false : true'>
+                                        </select> </div>
+                                    <div style='width: 50%; margin-right: 5px;'> <label class='form-check-label'
+                                            for='exampleRadios1'>Max</label> <select id='stepSelect' match='rangeMax'
+                                            class='form-control' style='width: 100%;'
+                                            :disabled='input.choise==2 ? false : true'>
+                                        </select> </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class='panel panel-default' style='margin: 0px !important; padding: 0px !important; height: 230px;'>
+                    <div class='panel-heading'>
+                        <div style='display: flex;'> <input class='form-check-input' type='radio' name='choise' value='3'
+                                match='choise'> <span style='margin-left: 10px;'>Choise</span> </div>
+                    </div>
+                    <div class='panel-body' style="padding-top: 6px !important;">
+                        <div match='spesific' class='form-group'
+                            style='display: flex !important; flex-wrap: wrap !important; margin: 0px !important; padding: 0px !important;'>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+      `,
     });
 
     this.value = "*";
@@ -189,24 +205,36 @@ customElements.define("cron-expresion-input", class extends CronComponent {
   constructor() { super(); }
 
   connectedCallback() {
+    var color = this.getAttribute("color");
+    this.colorMain = "#" + color; 
+    this.colorSecond = this.increaseBrightness(color, 10);
+
     this.Init({
       self: this,
       style: `
-        cron-expresion-input .cronContainer {
+        cron-expresion-input {
+          font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+        }
+        cron-expresion-input .cronInput {
+          height: 34px !important;
           position: relative !important;
         }
-        cron-expresion-input .cronContainer input[type="text"] {
+        cron-expresion-input .cronInput input[type="text"] {
           width: 98% !important;
           box-shadow: none !important;
+          padding-left: 10px !important;
+          padding-bottom: 0px !important;
+          padding-top: 5px !important;
+          border: 1px #ccc solid !important;
         }
-        cron-expresion-input .cronContainer button {
+        cron-expresion-input .cronInput button {
           position: absolute !important;
           right: 0 !important;
           border-top-left-radius: 0 !important;
           border-bottom-left-radius: 0 !important;
           z-index: 2 !important;
         }
-        cron-expresion-input .cronContainer input {
+        cron-expresion-input .cronInput input {
           line-height: normal !important;
         }
         cron-expresion-input * {
@@ -225,7 +253,6 @@ customElements.define("cron-expresion-input", class extends CronComponent {
           display: inline-block !important;
           max-width: 100% !important;
           margin-bottom: 5px !important;
-          font-weight: 700 !important;
         }
         cron-expresion-input input[type="checkbox"],
         cron-expresion-input input[type="radio"] {
@@ -285,8 +312,9 @@ customElements.define("cron-expresion-input", class extends CronComponent {
           -ms-user-select: none !important;
           user-select: none !important;
           background-image: none !important;
-          border: 1px solid transparent !important;
+          border: 1px solid #ccc !important;
           border-radius: 4px !important;
+          height: 100% !important;
         }
         cron-expresion-input .btn:active:focus,
         cron-expresion-input .btn:focus {
@@ -306,31 +334,33 @@ customElements.define("cron-expresion-input", class extends CronComponent {
         }
         cron-expresion-input .btn-custom {
           color: #fff !important;
-          background-color: #f0ad4e !important;
-          border-color: #eea236 !important;
+          border: 1px #ccc solid !important;
+          background-color: #d58512 !important;
+          border-color: #d99129 !important;
         }
         cron-expresion-input .btn-custom:focus {
           color: #fff !important;
-          background-color: #ec971f !important;
-          border-color: #985f0d !important;
+          background-color: #d99129 !important;
+          border: 1px #ccc solid;
           outline: 0 !important;
         }
         cron-expresion-input .btn-custom:hover {
           color: #fff !important;
-          background-color: #ec971f !important;
-          border-color: #d58512 !important;
+          background-color: #d99129 !important;
+          border-color: #d99129 !important;
         }
         cron-expresion-input .btn-custom:active {
           color: #fff !important;
-          background-color: #ec971f !important;
-          border-color: #d58512 !important;
+          border: 1px #ccc solid !important;
+          background-color: #d99129 !important;
+          border-color: #d99129 !important;
           outline: 0 !important;
         }
         cron-expresion-input .btn-custom:active:focus,
         cron-expresion-input .btn-custom:active:hover {
           color: #fff !important;
-          background-color: #d58512 !important;
-          border-color: #985f0d !important;
+          background-color: #d99129 !important;
+          border-color: #ccc !important;
         }
         cron-expresion-input .btn-custom:active {
           background-image: none !important;
@@ -431,13 +461,6 @@ customElements.define("cron-expresion-input", class extends CronComponent {
           cursor: pointer !important;
           opacity: 0.5 !important;
         }
-        cron-expresion-input button.close {
-          -webkit-appearance: none !important;
-          padding: 0 !important;
-          cursor: pointer !important;
-          background: 0 0 !important;
-          border: 0 !important;
-        }
         cron-expresion-input .modal {
           position: fixed !important;
           top: 0 !important;
@@ -469,14 +492,15 @@ customElements.define("cron-expresion-input", class extends CronComponent {
         }
         cron-expresion-input .modal-header {
           padding: 15px !important;
-          border-bottom: 1px solid #e5e5e5 !important;
         }
         cron-expresion-input .modal-header .close {
           margin-top: -2px !important;
         }
         cron-expresion-input .modal-body {
           position: relative !important;
+          top: -15px !important;
           padding: 15px !important;
+          padding-bottom: 0px !important;
         }
         cron-expresion-input .modal-dialog {
           width: 600px !important;
@@ -499,80 +523,138 @@ customElements.define("cron-expresion-input", class extends CronComponent {
         cron-expresion-input .show {
           display: block !important;
         }
-        cron-expresion-input .form-check-input, cron-expresion-input .check-container span {
-          position: relative;top: -1.5px;
+        input[type="radio"] {
+          position: relative;
+          top: -2.52px;
         }
-        `,
+        input[type="radio"] {
+          appearance: none;
+          display: block;
+          width: 1em;
+          height: 1em;
+          border-radius: 50%;
+          border: 0.1em solid #d99129;
+        }
+        input[type="radio"]:after {
+          appearance: radio;
+          display: block;
+          width: 10px;
+          height: 10px;
+          border-radius: 10px;
+          top: -2px;
+          left: -1px;
+          position: relative;
+          background-color: #d1d3d1;
+          display: inline-block;
+          visibility: visible;
+          border: 2px solid white;
+          position: absolute !important;
+          top: 2px !important;
+          left: 1.8px !important;
+        }
+        input[type="radio"]:checked:after {
+          appearance: radio;
+          border: 2px solid white;
+          display: block;
+          width: 10px;
+          height: 10px;
+          border-radius: 10px;
+          top: -3px;
+          left: 2px;
+          position: relative;
+          background-color: #d99129;
+          content: "";
+          display: inline-block;
+          visibility: visible;
+          border: none;
+          position: absolute !important;
+          top: 1px !important;
+          left: 1.9px !important;
+        }
+        cron-expresion-input input[type="checkbox"]:focus,
+        cron-expresion-input input[type="radio"]:focus {
+          outline: none !important;
+        }
+        cron-expresion-input span {
+          position: relative;
+          z-index: 2 !important;
+        }
+      `,
       template: `
-      <div class="cronInput">
-          <div class="cronContainer" style="display: flex !important;"> <input id="cronInput" type="text" class="form-control"
-                  placeholder="Cron Expresion"> <button type="button" class="cronButtonUI btn btn-custom"
-                  style="height: 34px;font-size: 114% !important;" @click="openCronUI">
-                  <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                  <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
-                </svg>
-                  </button>
-          </div>
-      </div>
-      <div class="modal" tabindex="-1">
-          <div class="modal-dialog" style="width: 860px !important;">
-              <div class="modal-content">
-                  <div class="modal-header" style="height: 44px;">
-                      <span class="close cronClose">
-                          <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-x-circle" fill="currentColor">
-                              <path fill-rule="evenodd"
-                                  d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-                              <path fill-rule="evenodd"
-                                  d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
-                          </svg>
-                      </span>
-                      <span class="close cronClose" style="margin-right: 10px;">
-                          <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-check-circle" fill="currentColor">
-                              <path fill-rule="evenodd"
-                                  d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-                              <path fill-rule="evenodd"
-                                  d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.236.236 0 0 1 .02-.022z" />
-                          </svg>
-                      </span>
-                  </div>
-                  <div class="modal-body" style="padding-top: 0px !important;">
-                      <ul class="nav nav-tabs" style="margin-top: 13px;">
-                          <li class="nav-item active in"><a class="nav-link">Minutes</a></li>
-                          <li class="nav-item"><a class="nav-link">Hours</a></li>
-                          <li class="nav-item"><a class="nav-link">Day of Month</a></li>
-                          <li class="nav-item"><a class="nav-link">Month</a></li>
-                          <li class="nav-item"><a class="nav-link">Days of week</a></li>
-                      </ul>
-                      <div class="tab-content" style="margin-top: 13px !important;">
-                          <div class="tab-pane active in">
-                              <cron-fields pos="0" input="minute" hasZero="true" every="59" />
-                          </div>
-                          <div class="tab-pane fade">
-                              <cron-fields pos="1" input="hour" hasZero="true" every="23" />
-                          </div>
-                          <div class="tab-pane fade">
-                              <cron-fields pos="2" input="dayOfMonth" every="31" />
-                          </div>
-                          <div class="tab-pane fade">
-                              <cron-fields pos="3" input="month" every="12" />
-                          </div>
-                          <div class="tab-pane fade">
-                              <cron-fields pos="4" input="dayOfWeek" hasZero="true" every="6" />
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </div>
-      </div>
+        <div class="cronInput" style="display: flex !important;">
+          <input class="cronInsideInput" type="text" class="form-control" placeholder="Cron Expresion">
+          <button type="button" class="cronButtonUI btn btn-custom" style="font-size: 114% !important;" @click="openCronUI">
+              <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil-square" fill="currentColor">
+              <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+              <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+            </svg>
+          </button>
+        </div>
+        <div class="modal" tabindex="-1">
+            <div class="modal-dialog" style="width: 893px !important;">
+                <div class="modal-content">
+                    <div class="modal-header" style="height: 0px;">
+                        <span class="close cronClose">
+                            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-x-circle" fill="${this.colorSecond}">
+                                <path fill-rule="evenodd"
+                                    d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                <path fill-rule="evenodd"
+                                    d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                            </svg>
+                        </span>
+                        <span class="close cronSave" style="margin-right: 10px;">
+                            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-check-circle" fill="${this.colorSecond}">
+                                <path fill-rule="evenodd"
+                                    d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                <path fill-rule="evenodd"
+                                    d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.236.236 0 0 1 .02-.022z" />
+                            </svg>
+                        </span>
+                    </div>
+                    <div class="modal-body" style="padding-top: 0px !important;">
+                        <ul class="nav nav-tabs" style="margin-top: 0px;">
+                            <li class="nav-item active in"><a class="nav-link">Minutes</a></li>
+                            <li class="nav-item"><a class="nav-link">Hours</a></li>
+                            <li class="nav-item"><a class="nav-link">Day of Month</a></li>
+                            <li class="nav-item"><a class="nav-link">Month</a></li>
+                            <li class="nav-item"><a class="nav-link">Days of week</a></li>
+                        </ul>
+                        <div class="tab-content" style="margin-top: 13px !important;">
+                            <div class="tab-pane active in">
+                                <cron-fields pos="0" input="minute" hasZero="true" every="59" />
+                            </div>
+                            <div class="tab-pane fade">
+                                <cron-fields pos="1" input="hour" hasZero="true" every="23" />
+                            </div>
+                            <div class="tab-pane fade">
+                                <cron-fields pos="2" input="dayOfMonth" every="31" />
+                            </div>
+                            <div class="tab-pane fade">
+                                <cron-fields pos="3" input="month" every="12" />
+                            </div>
+                            <div class="tab-pane fade">
+                                <cron-fields pos="4" input="dayOfWeek" hasZero="true" every="6" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
       `,
     });
     
     var self = this;
     self.setValue(self.getAttribute("value"));
 
-    this.addEvent(".cronButtonUI", "click", function () { self.modalToggle(); });
-    this.addEvent(".cronClose", "click", function () { self.modalToggle(); });
+    this.addEvent(".cronButtonUI", "click", function () {
+      self.currentValue = self.getAttribute("value");
+      self.modalToggle();
+    });
+    this.addEvent(".cronClose", "click", function () {
+      self.setValue(self.currentValue);
+      self.modalToggle();
+    });
+    this.addEvent(".cronSave", "click", function () { self.modalToggle(); });
 
     this.addEvent("li > a", "click", function (scope) {
       var index = 0;
@@ -606,7 +688,7 @@ customElements.define("cron-expresion-input", class extends CronComponent {
 
   setValue(value) {
     this.setAttribute("value", value);
-    document.getElementById("cronInput").setAttribute("value", value);
+    this.getElement(".cronInsideInput").setAttribute("value", value);
   }
   modalToggle() {
     this.getElement(".modal").classList.toggle("show");
