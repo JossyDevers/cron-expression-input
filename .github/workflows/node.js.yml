@@ -19,16 +19,31 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - run: npm install
-      - run: npm run build
+          
+      - name: 'Step #1 - Build'
+        run: |
+          npm install
+          npm run build
 
-      - name: 'Step #1 - Minify Action'
-        uses: jossydevers/minify-action@v1.0.1
+      - name: 'Step #2 - Minify JS'
+        uses: jossydevers/minify-action@v1.0.2
         with:
           directory: 'dist/cron-expression-input.js'
-          output: 'release/src/'
-        
-      - name: 'Step #2 - Commit Action'
+          output: './libs/'
+
+      - name: 'Step #3 - Minify CSS'
+        uses: jossydevers/minify-action@v1.0.2
+        with:
+          directory: 'src/index.css'
+          output: './dist/'
+      
+      - name: 'Step #4 - Rename CSS File'
+        uses: canastro/copy-action@0.0.2
+        with:
+          source: ./dist/index.min.css
+          target: ./libs/cron-expression-input.min.css
+    
+      - name: 'Step #5 - Commit Action'
         uses: stefanzweifel/git-auto-commit-action@v3.0.0
         with:
           commit_message: "Github Action: Pipeline"
