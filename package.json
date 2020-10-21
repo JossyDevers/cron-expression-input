@@ -2,17 +2,38 @@
   "name": "cron-expression-input",
   "version": "1.0.0",
   "description": "Cron UI: input component to generate cron expressions easily and intuitively",
-  "main": "libs/cron-expression-input.min.js",
+  "main": "lib/cron-expression-input.min.js",
+  "files": [
+    "lib/*"
+  ],
+  "exports": {
+    "./": "./lib/"
+  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/JossyDevers/cron-expression-input"
+    "url": "git+https://github.com/JossyDevers/cron-expression-input.git"
   },
+  "author": "Jossy Devers <jossydevers@gmail.com> (https://github.com/JossyDevers)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/JossyDevers/cron-expression-input/issues"
+  },
+  "homepage": "https://github.com/JossyDevers/cron-expression-input#readme",
+  "keywords": [
+    "cron",
+    "crontab",
+    "validate",
+    "expression",
+    "crontab guru",
+    "ui",
+    "editor",
+    "generator",
+    "unix"
+  ],
   "scripts": {
     "start": "webpack serve",
     "build": "webpack --config webpack.config.js"
   },
-  "author": "Jossy Devers",
-  "license": "MIT",
   "dependencies": {
     "cron-validator": "^1.1.1"
   },
