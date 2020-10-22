@@ -18,22 +18,22 @@
 
 ### NPM
 
-Install the packete from https://www.npmjs.com/cron-expresion-input
+Install the packete from https://www.npmjs.com/cron-expression-input
 ``` javascript
-npm install cron-expresion-input@1.0.0
+npm install cron-expression-input@1.1.0
 ```
 In your code
 ``` javascript
-import "cron-expresion-input@1.0.0/cron-expression-input.min.css"; /* CSS */
-require("cron-expresion-input@1.0.0"); /* JAVASCRIPT */
+import "cron-expression-input@1.1.0/cron-expression-input.min.css"; /* CSS */
+require("cron-expression-input@1.1.0"); /* JAVASCRIPT */
 ```
 
 ### CDN
 
 Add the CDN to your project
 ``` html
-<link rel="stylesheet" href="unpkg.com/cron-expression-input@1.0.0/lib/cron-expression-input.min.css">
-<script src="unpkg.com/cron-expression-input@1.0.0/lib/cron-expression-input.min.js"></script>
+<link rel="stylesheet" href="unpkg.com/cron-expression-input@1.1.0/lib/cron-expression-input.min.css">
+<script src="unpkg.com/cron-expression-input@1.1.0/lib/cron-expression-input.min.js"></script>
 ```
 
 ### Usage

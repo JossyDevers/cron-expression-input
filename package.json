@@ -1,6 +1,6 @@
 {
   "name": "cron-expression-input",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Cron UI: input component to generate cron expressions easily and intuitively",
   "main": "lib/cron-expression-input.min.js",
   "files": [
