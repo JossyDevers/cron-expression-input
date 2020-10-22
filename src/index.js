@@ -13,8 +13,6 @@ class CronComponent extends HTMLElement {
         this.state.self[p] = state.self.getAttribute(p);
       });
     }
-
-    this.Create(this.state.self, this.state.template);
   }
 
   Create(self, template) {
@@ -69,9 +67,16 @@ customElements.define(
     connectedCallback() {
       this.Init({
         self: this,
-        props: ["input", "hasZero", "every"],
-        template: `
+        props: ["input", "hasZero", "every", "colorMain", "colorSecond"],
+      });
+
+      var template = `
           <div>
+            <style>
+              cron-expression-input input[type="radio"]:checked:after { background-color: ${this.colorMain} !important; }
+              cron-expression-input input[type="radio"] { border: 0.1em solid ${this.colorSecond} !important; }
+              .container input:checked ~ .checkmark { background-color: ${this.colorSecond} !important; }
+            </style>
             <form>
                 <div style='display: flex; height: 138px;'>
                     <div class='panel panel-default' style='margin-right: 2.5px; width: 50%; height: 132px;'>
@@ -115,7 +120,7 @@ customElements.define(
                         </div>
                     </div>
                 </div>
-                <div class='panel panel-default' style='margin: 0px !important; padding: 0px !important; height: 230px;'>
+                <div class='panel panel-default' style='margin: 0px !important; padding: 0px !important; height: 248px;'>
                     <div class='panel-heading'>
                         <div style='display: flex;'> <input class='form-check-input' type='radio' name='choise' value='3'
                                 match='choise'> <span style='margin-left: 10px;'>Choise</span> </div>
@@ -128,10 +133,10 @@ customElements.define(
                 </div>
             </form>
         </div>
-      `,
-      });
+      `;
 
       this.value = "*";
+      this.Create(this, template);
       this.Mount();
     }
 
@@ -148,13 +153,14 @@ customElements.define(
       return n.toString().padStart(2, "0");
     }
     getHasZero() {
-      return Number(this.hasZero == "true");
+      return this.hasZero ? 0 : 1;
     }
     addSelectOptions(attr) {
       var match = this.getElement("*[match=" + attr + "]");
       for (var i = this.getHasZero(); i <= this["every"]; i++) {
         var option = document.createElement("option");
         option.innerText = this.getNumber(i);
+        option.value = i;
         match.appendChild(option);
       }
     }
@@ -164,8 +170,8 @@ customElements.define(
         var div = document.createElement("div");
         div.innerHTML = `
               <div style="margin: 10px;">
-                  <label class="check-container">
-                      <span>${this.getNumber(i)}</span>
+                  <label class="container">
+                      <span class="numberValue">${this.getNumber(i)}</span>
                       <input value='${i}' type="checkbox">
                       <span class="checkmark"></span>
                   </label>
@@ -239,16 +245,18 @@ customElements.define(
       this.width = this.getAttribute("width");
       this.height = this.getAttribute("height");
 
-      var color = this.getAttribute("color");
+      var color = this.getAttribute("color").replace("#", "");
       this.colorMain = "#" + color;
       this.colorSecond = this.increaseBrightness(color, 10);
 
       this.Init({
         self: this,
-        template: `
+      });
+
+      var template = `
         <div class="cronInput" style="display: flex !important; width: ${this.width} !important; height: ${this.height} !important;">
           <input class="cronInsideInput" type="text" class="form-control" placeholder="Cron expression">
-          <button type="button" class="cronButtonUI btn btn-custom" style="font-size: 114% !important;" @click="openCronUI">
+          <button type="button" class="cronButtonUI btn btn-custom" style="font-size: 114% !important; border-color: ${this.colorMain} !important; background-color: ${this.colorSecond} !important;" @click="openCronUI">
               <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil-square" fill="currentColor">
               <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
               <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
@@ -287,29 +295,29 @@ customElements.define(
                         </ul>
                         <div class="tab-content" style="margin-top: 13px !important;">
                             <div class="tab-pane active in">
-                                <cron-fields pos="0" input="minute" hasZero="true" every="59" />
+                                <cron-fields pos="0" input="minute" hasZero="true" every="59" colorMain="${this.colorMain}" colorSecond="${this.colorSecond}" />
                             </div>
                             <div class="tab-pane fade">
-                                <cron-fields pos="1" input="hour" hasZero="true" every="23" />
+                                <cron-fields pos="1" input="hour" hasZero="true" every="23" colorMain="${this.colorMain}" colorSecond="${this.colorSecond}" />
                             </div>
                             <div class="tab-pane fade">
-                                <cron-fields pos="2" input="dayOfMonth" every="31" />
+                                <cron-fields pos="2" input="dayOfMonth" every="31" colorMain="${this.colorMain}" colorSecond="${this.colorSecond}" />
                             </div>
                             <div class="tab-pane fade">
-                                <cron-fields pos="3" input="month" every="12" />
+                                <cron-fields pos="3" input="month" every="12" colorMain="${this.colorMain}" colorSecond="${this.colorSecond}" />
                             </div>
                             <div class="tab-pane fade">
-                                <cron-fields pos="4" input="dayOfWeek" hasZero="true" every="6" />
+                                <cron-fields pos="4" input="dayOfWeek" hasZero="true" every="6" colorMain="${this.colorMain}" colorSecond="${this.colorSecond}" />
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-      `,
-      });
+      `;
 
       var self = this;
+      this.Create(self, template);
       self.setValue("0/1 * * * *");
 
       this.addEvent(".cronButtonUI", "click", function () {

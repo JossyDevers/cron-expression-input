@@ -122,7 +122,7 @@ cron-expression-input .btn-custom {
 cron-expression-input .btn-custom:focus {
   color: #fff !important;
   background-color: #d99129 !important;
-  border: 1px #ccc solid;
+  border: 1px #ccc solid !important;
   outline: 0 !important;
 }
 cron-expression-input .btn-custom:hover {
@@ -361,4 +361,68 @@ cron-expression-input .btn-custom:active {
 cron-expression-input span {
   position: relative !important;
   z-index: 2 !important;
+}
+
+cron-expression-input .container {
+  display: block !important;
+  position: relative !important;
+  padding-left: 21px !important;
+  margin-bottom: 12px !important;
+  cursor: pointer !important;
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
+}
+
+cron-expression-input .container input {
+  position: absolute !important;
+  opacity: 0 !important;
+  cursor: pointer !important;
+  height: 0 !important;
+  width: 0 !important;
+}
+
+cron-expression-input .checkmark {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  height: 14.5px !important;
+  width: 14.5px !important;
+  background-color: #eee !important;
+}
+
+cron-expression-input .container:hover input ~ .checkmark {
+  background-color: #ccc !important;
+}
+
+cron-expression-input .container input:checked ~ .checkmark {
+  background-color: #d99129 !important;
+}
+
+cron-expression-input .checkmark:after {
+  content: "" !important;
+  position: absolute !important;
+  display: none !important;
+}
+
+cron-expression-input .container .numberValue {
+  position: relative !important;
+  top: -2px !important;
+}
+
+cron-expression-input .container input:checked ~ .checkmark:after {
+  display: block !important;
+}
+
+cron-expression-input .container .checkmark:after {
+  left: 3px !important;
+  top: 6px !important;
+  width: 6px !important;
+  height: 0px !important;
+  border: solid white !important;
+  border-width: 0 3px 3px 0 !important;
+  -webkit-transform: rotate(45deg) !important;
+  -ms-transform: rotate(45deg) !important;
+  transform: rotate(45deg) !important;
 }
