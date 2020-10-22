@@ -5,7 +5,7 @@
 
 ## Description
 
-<p>Cron UI: input component to generate cron expressions easily and intuitively, as in https://crontab.guru/</p>
+<p><strong>Cron Expression UI</strong>: Input component to generate cron expressions easily and intuitively, as in https://crontab.guru/</p>
 
 ### Examples
 
