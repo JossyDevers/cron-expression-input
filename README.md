@@ -88,7 +88,7 @@ export default App;
 
 <h4>Use in Vue</h4>
 
-```vue
+```javascript
 <template>
   <div id="app">
     <cron-expression-input
