@@ -16,6 +16,7 @@ class CronComponent extends HTMLElement {
   }
 
   Create(self, template) {
+    self.innerHTML = "";
     var div = document.createElement("div");
     div.innerHTML = template;
     self.appendChild(div);
@@ -71,69 +72,66 @@ customElements.define(
       });
 
       var template = `
-          <div>
-            <style>
-              cron-expression-input input[type="radio"]:checked:after { background-color: ${this.colorMain} !important; }
-              cron-expression-input input[type="radio"] { border: 0.1em solid ${this.colorSecond} !important; }
-              .container input:checked ~ .checkmark { background-color: ${this.colorSecond} !important; }
-            </style>
-            <form>
-                <div style='display: flex; height: 138px;'>
-                    <div class='panel panel-default' style='margin-right: 2.5px; width: 50%; height: 132px;'>
-                        <div class='panel-heading'>
-                            <div style='display: flex;'> <input class='form-check-input' type='radio' name='choise' value='1'
-                                    match='choise' checked> <span style='margin-left: 10px;'>Step</span> </div>
-                        </div>
-                        <div class='panel-body' style='display: flex !important;'>
-                            <div class='form-group' style='margin-right: 5px; width: 50%;'> <label
-                                    for='everySelect'>Every</label> <select match='every' class='form-control'
-                                    style='width: 100%;' :disabled='input.choise==1 ? false : true'>
-                                    <option>*</option>
+  <div>
+    <style>
+      cron-expression-input input[type="radio"]:checked:after { background-color: ${this.colorMain} !important; }
+      cron-expression-input input[type="radio"] { border: 0.1em solid ${this.colorSecond} !important; }
+      .container input:checked ~ .checkmark { background-color: ${this.colorSecond} !important; }
+    </style>
+    <form>
+        <div style='display: flex; height: 138px;'>
+            <div class='panel panel-default' style='margin-right: 2.5px; width: 50%; height: 132px;'>
+                <div class='panel-heading'>
+                    <div style='display: flex;'> <input class='propagationClass form-check-input' type='radio' name='choise' value='1'
+                            match='choise' checked> <span style='margin-left: 10px;'>Step</span> </div>
+                </div>
+                <div class='panel-body' style='display: flex !important;'>
+                    <div class='propagationClass form-group' style='margin-right: 5px; width: 50%;'> <label
+                            for='everySelect'>Every</label> <select match='every' class='form-control'
+                            style='width: 100%;'>
+                            <option>*</option>
+                        </select> </div>
+                    <div class='form-group' style='margin-left: 5px; width: 50%;'> <label for='stepSelect'>Step</label>
+                        <select match='step' class='propagationClass form-control' style='width: 100%;'>
+                            <option>*</option>
+                        </select> </div>
+                </div>
+            </div>
+            <div class='panel panel-default' style='margin-left: 2.5px; width: 50%; height: 132px;'>
+                <div class='panel-heading'>
+                    <div style='display: flex;'> <input class='propagationClass form-check-input' type='radio' name='choise' value='2'
+                            match='choise'> <span style='margin-left: 10px;'>Range</span> </div>
+                </div>
+                <div class='panel-body'>
+                    <div class='form-group'>
+                        <div style='display: flex;'>
+                            <div style='width: 50%; margin-right: 5px;'> <label class='form-check-label'
+                                    for='exampleRadios1'>Min</label> <select match='rangeMin'
+                                    class='propagationClass form-control' style='width: 100%;'>
                                 </select> </div>
-                            <div class='form-group' style='margin-left: 5px; width: 50%;'> <label for='stepSelect'>Step</label>
-                                <select match='step' class='form-control' style='width: 100%;'
-                                    :disabled='input.choise==1 ? false : true'>
-                                    <option>*</option>
+                            <div style='width: 50%; margin-right: 5px;'> <label class='form-check-label'
+                                    for='exampleRadios1'>Max</label> <select match='rangeMax'
+                                    class='propagationClass form-control' style='width: 100%;'>
                                 </select> </div>
-                        </div>
-                    </div>
-                    <div class='panel panel-default' style='margin-left: 2.5px; width: 50%; height: 132px;'>
-                        <div class='panel-heading'>
-                            <div style='display: flex;'> <input class='form-check-input' type='radio' name='choise' value='2'
-                                    match='choise'> <span style='margin-left: 10px;'>Range</span> </div>
-                        </div>
-                        <div class='panel-body'>
-                            <div class='form-group'>
-                                <div style='display: flex;'>
-                                    <div style='width: 50%; margin-right: 5px;'> <label class='form-check-label'
-                                            for='exampleRadios1'>Min</label> <select match='rangeMin'
-                                            class='form-control' style='width: 100%;'
-                                            :disabled='input.choise==2 ? false : true'>
-                                        </select> </div>
-                                    <div style='width: 50%; margin-right: 5px;'> <label class='form-check-label'
-                                            for='exampleRadios1'>Max</label> <select match='rangeMax'
-                                            class='form-control' style='width: 100%;'
-                                            :disabled='input.choise==2 ? false : true'>
-                                        </select> </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
-                <div class='panel panel-default' style='margin: 0px !important; padding: 0px !important; height: 248px;'>
-                    <div class='panel-heading'>
-                        <div style='display: flex;'> <input class='form-check-input' type='radio' name='choise' value='3'
-                                match='choise'> <span style='margin-left: 10px;'>Choise</span> </div>
-                    </div>
-                    <div class='panel-body' style="padding-top: 6px !important;">
-                        <div match='spesific' class='form-group'
-                            style='display: flex !important; flex-wrap: wrap !important; margin: 0px !important; padding: 0px !important;'>
-                        </div>
-                    </div>
-                </div>
-            </form>
+            </div>
         </div>
-      `;
+        <div class='panel panel-default' style='margin: 0px !important; padding: 0px !important; height: 214px;'>
+            <div class='panel-heading'>
+                <div style='display: flex;'> <input class='propagationClass form-check-input' type='radio' name='choise' value='3'
+                        match='choise'> <span style='margin-left: 10px;'>Choise</span> </div>
+            </div>
+            <div class='panel-body' style="padding-top: 6px !important;">
+                <div match='spesific' class='form-group'
+                    style='display: flex !important; flex-wrap: wrap !important; margin: 0px !important; padding: 0px !important;'>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+`;
 
       this.value = "*";
       this.Create(this, template);
@@ -169,14 +167,15 @@ customElements.define(
       for (var i = this.getHasZero(); i <= this["every"]; i++) {
         var div = document.createElement("div");
         div.innerHTML = `
-              <div style="margin: 10px;">
-                  <label class="container">
-                      <span class="numberValue">${this.getNumber(i)}</span>
-                      <input value='${i}' type="checkbox">
-                      <span class="checkmark"></span>
-                  </label>
-              </div>
-            `;
+      <div style="margin: 10px;">
+          <label class="container">
+              <span class="numberValue">${this.getNumber(i)}</span>
+              <input class="propagationClass" value='${i}' type="checkbox">
+              <span class="checkmark"></span>
+          </label>
+      </div>
+    `;
+        div.style = "width: 55px !important;";
         match.appendChild(div);
       }
     }
@@ -254,72 +253,82 @@ customElements.define(
       });
 
       var template = `
-        <div class="cronInput" style="display: flex !important; width: ${this.width} !important; height: ${this.height} !important;">
-          <input class="cronInsideInput" type="text" class="form-control" placeholder="Cron expression">
-          <button type="button" class="cronButtonUI btn btn-custom" style="font-size: 114% !important; border-color: ${this.colorMain} !important; background-color: ${this.colorSecond} !important;" @click="openCronUI">
-              <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil-square" fill="currentColor">
+          <div class="cronInput" style="display: flex !important; width: ${this.width} !important; height: ${this.height} !important;">
+          <input class="cronInsideInput" type="text" class="form-control" placeholder="Cron Expression">
+          <button type="button" class="cronButtonUI btn btn-custom" style="font-size: 114% !important; border-color: ${this.colorMain} !important; background-color: ${this.colorSecond} !important;">
+              <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil-square" fill="white">
               <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
               <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
             </svg>
           </button>
         </div>
-        <small class="cronexpressionError hiden" style="display: none; color: red !important; margin-top: 5px !important;">expression cron invalida, try with (* * * * *)</small>
-        <div class="modal" tabindex="-1">
-            <div class="modal-dialog" style="width: 893px !important;">
-                <div class="modal-content">
-                    <div class="modal-header" style="height: 0px;">
-                        <span class="close cronClose">
-                            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-x-circle" fill="${this.colorSecond}">
-                                <path fill-rule="evenodd"
-                                    d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-                                <path fill-rule="evenodd"
-                                    d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
-                            </svg>
-                        </span>
-                        <span class="close cronSave" style="margin-right: 10px;">
-                            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-check-circle" fill="${this.colorSecond}">
-                                <path fill-rule="evenodd"
-                                    d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-                                <path fill-rule="evenodd"
-                                    d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.236.236 0 0 1 .02-.022z" />
-                            </svg>
-                        </span>
+<small class="cronexpressionError hiden" style="display: none; color: red !important; margin-top: 5px !important; margin-bottom: 5px !important;">expression cron invalida, try with (* * * * *)</small>
+<div class="modal" tabindex="-1">
+    <div class="modal-dialog" style="width: 893px !important;">
+        <div class="modal-content" style="height: 480px !important">
+            <div class="modal-header" style="height: 0px !important; padding-bottom: 30px !important;">
+                <span class="close2 cronClose">
+                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-x-circle" fill="${this.colorMain}" style="font-size: 21px !important;">
+                        <path fill-rule="evenodd"
+                            d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                        <path fill-rule="evenodd"
+                            d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                    </svg>
+                </span>
+                <span class="close2 cronSave" style="margin-right: 10px;">
+                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-check-circle" fill="${this.colorMain}" style=" font-size: 21px !important;">
+                        <path fill-rule="evenodd"
+                            d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                        <path fill-rule="evenodd"
+                            d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.236.236 0 0 1 .02-.022z" />
+                    </svg>
+                </span>
+            </div>
+            <div class="modal-body" style="padding-top: 0px !important;">
+                <ul class="nav nav-tabs" style="margin-top: 0px;">
+                    <li class="nav-item active in"><a class="nav-link">Minutes</a></li>
+                    <li class="nav-item"><a class="nav-link">Hours</a></li>
+                    <li class="nav-item"><a class="nav-link">Day of Month</a></li>
+                    <li class="nav-item"><a class="nav-link">Month</a></li>
+                    <li class="nav-item"><a class="nav-link">Days of week</a></li>
+                </ul>
+                <div class="tab-content" style="margin-top: 13px !important;">
+                    <div class="tab-pane active in">
+                        <cron-fields pos="0" input="minute" hasZero="true" every="59" colorMain="${this.colorMain}" colorSecond="${this.colorSecond}" />
                     </div>
-                    <div class="modal-body" style="padding-top: 0px !important;">
-                        <ul class="nav nav-tabs" style="margin-top: 0px;">
-                            <li class="nav-item active in"><a class="nav-link">Minutes</a></li>
-                            <li class="nav-item"><a class="nav-link">Hours</a></li>
-                            <li class="nav-item"><a class="nav-link">Day of Month</a></li>
-                            <li class="nav-item"><a class="nav-link">Month</a></li>
-                            <li class="nav-item"><a class="nav-link">Days of week</a></li>
-                        </ul>
-                        <div class="tab-content" style="margin-top: 13px !important;">
-                            <div class="tab-pane active in">
-                                <cron-fields pos="0" input="minute" hasZero="true" every="59" colorMain="${this.colorMain}" colorSecond="${this.colorSecond}" />
-                            </div>
-                            <div class="tab-pane fade">
-                                <cron-fields pos="1" input="hour" hasZero="true" every="23" colorMain="${this.colorMain}" colorSecond="${this.colorSecond}" />
-                            </div>
-                            <div class="tab-pane fade">
-                                <cron-fields pos="2" input="dayOfMonth" every="31" colorMain="${this.colorMain}" colorSecond="${this.colorSecond}" />
-                            </div>
-                            <div class="tab-pane fade">
-                                <cron-fields pos="3" input="month" every="12" colorMain="${this.colorMain}" colorSecond="${this.colorSecond}" />
-                            </div>
-                            <div class="tab-pane fade">
-                                <cron-fields pos="4" input="dayOfWeek" hasZero="true" every="6" colorMain="${this.colorMain}" colorSecond="${this.colorSecond}" />
-                            </div>
-                        </div>
+                    <div class="tab-pane fade">
+                        <cron-fields pos="1" input="hour" hasZero="true" every="23" colorMain="${this.colorMain}" colorSecond="${this.colorSecond}" />
+                    </div>
+                    <div class="tab-pane fade">
+                        <cron-fields pos="2" input="dayOfMonth" every="31" colorMain="${this.colorMain}" colorSecond="${this.colorSecond}" />
+                    </div>
+                    <div class="tab-pane fade">
+                        <cron-fields pos="3" input="month" every="12" colorMain="${this.colorMain}" colorSecond="${this.colorSecond}" />
+                    </div>
+                    <div class="tab-pane fade">
+                        <cron-fields pos="4" input="dayOfWeek" hasZero="true" every="6" colorMain="${this.colorMain}" colorSecond="${this.colorSecond}" />
                     </div>
                 </div>
             </div>
         </div>
-      `;
+    </div>
+</div>
+`;
 
       var self = this;
       this.Create(self, template);
-      self.setValue("0/1 * * * *");
+      this.setValue(this.getAttribute("value"));
 
+      var input1 = this.getElement(".cronInsideInput");
+      input1.addEventListener("keydown", function (e) {
+        self.validateLongitud(e);
+      });
+      input1.addEventListener("keypress", function (e) {
+        self.validateLongitud(e);
+      });
+      input1.addEventListener("keyup", function (e) {
+        self.validateLongitud(e);
+      });
       this.addEvent(".cronButtonUI", "click", function () {
         self.currentValue = self.getAttribute("value");
         self.modalToggle();
@@ -331,7 +340,6 @@ customElements.define(
       this.addEvent(".cronSave", "click", function () {
         self.modalToggle();
       });
-
       this.addEvent("li > a", "click", function (scope) {
         var index = 0;
         self.getElements("li > a").forEach(function (elem, i) {
@@ -347,7 +355,6 @@ customElements.define(
         });
         elements[index].parentNode.setAttribute("class", "tab-pane active in");
       });
-
       this.addEvent(".cronInsideInput", "change", function (e) {
         var error = self.getElement(".cronexpressionError");
         if (!cron.isValidCron(e.value)) {
@@ -355,19 +362,8 @@ customElements.define(
         } else {
           error.classList.replace("show", "hiden");
         }
+        self.setValue(e["value"]);
       });
-
-      var input = this.getElement(".cronInsideInput");
-      input.addEventListener("keydown", function (e) {
-        self.validateLongitud(e);
-      });
-      input.addEventListener("keypress", function (e) {
-        self.validateLongitud(e);
-      });
-      input.addEventListener("keyup", function (e) {
-        self.validateLongitud(e);
-      });
-
       this.addEvent("cron-fields", "change", function (e) {
         var value = true;
         var node = e.parentNode;
@@ -376,14 +372,21 @@ customElements.define(
           if (node.nodeName == "CRON-FIELDS") value = false;
         }
 
-        var input = self.getElement(".cronInsideInput");
+        var input2 = self.getElement(".cronInsideInput");
         self.setValue(
           self.generateCron(
             parseInt(node.getAttribute("pos")),
-            input["value"],
+            input2["value"],
             node.value
           )
         );
+      });
+
+      // Stop InputEvent when a input is clicked.
+      this.getElements(".propagationClass").forEach(function (element) {
+        element.addEventListener("input", function (e) {
+          e.stopPropagation();
+        });
       });
     }
 
@@ -392,20 +395,24 @@ customElements.define(
       if (values.length > 5) {
         e.target.value = values.slice(0, 5).join(" ");
       }
+      this.sendEvent();
     }
     setValue(value) {
-      value = value.trim();
-      var len = value.split(" ").length;
-      var array = value.split(" ");
-      if (len != 5) {
-        for (var i = 0; i < 5 - len; i++) {
-          array.push("*");
+      var defaultArray = ["*", "*", "*", "*", "*"];
+      if (value == undefined) {
+        return defaultArray.join(" ");
+      } else if (value.length > 0) {
+        var array = value.trim().split(" ");
+        for (var i = 0; i < 5; i++) {
+          if (array[i] != undefined) {
+            defaultArray[i] = array[i];
+          }
         }
+        value = defaultArray.join(" ");
       }
-      value = array.join(" ");
-      this.setAttribute("value", value);
-      var input = this.getElement(".cronInsideInput");
-      input.value = value;
+      var input3 = this.getElement(".cronInsideInput");
+      input3.value = value;
+      this.sendEvent();
     }
     modalToggle() {
       this.getElement(".modal").classList.toggle("show");
@@ -414,6 +421,17 @@ customElements.define(
       var values = values.split(" ");
       values[pos] = value;
       return values.join(" ");
+    }
+    sendEvent() {
+      var input4 = this.getElement(".cronInsideInput");
+      var event = new CustomEvent("input", {
+        detail: {
+          value: input4.value,
+        },
+        bubbles: true,
+        cancelable: true,
+      });
+      this.dispatchEvent(event);
     }
   }
 );
