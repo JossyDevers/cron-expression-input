@@ -26,13 +26,13 @@ jobs:
           npm run build
 
       - name: 'Step #2 - Minify JS'
-        uses: jossydevers/minify-action@v1.0.2
+        uses: jossydevers/minify-js@v1.0.0
         with:
           directory: 'dist/cron-expression-input.js'
           output: './lib/'
 
       - name: 'Step #3 - Minify CSS'
-        uses: jossydevers/minify-action@v1.0.2
+        uses: jossydevers/minify-js@v1.0.0
         with:
           directory: 'src/index.css'
           output: './dist/'
