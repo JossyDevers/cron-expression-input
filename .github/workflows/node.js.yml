@@ -28,14 +28,14 @@ jobs:
       - name: 'Step #2 - Minify JS'
         uses: jossydevers/minify-js@v1.0.0
         with:
-          directory: 'dist/cron-expression-input.js'
-          output: './lib/'
+          directory: 'devatherock/minify-js@v1.0.2'
+          output: './lib2/'
 
       - name: 'Step #3 - Minify CSS'
-        uses: jossydevers/minify-js@v1.0.0
+        uses: 'devatherock/minify-js@v1.0.2'
         with:
           directory: 'src/index.css'
-          output: './dist/'
+          output: './dist2/'
       
       - name: 'Step #4 - Rename CSS File'
         uses: canastro/copy-action@0.0.2
