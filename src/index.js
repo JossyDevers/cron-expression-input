@@ -180,12 +180,12 @@ customElements.define(
       }
     }
     makeCron(choise, input) {
-      var cron = "*";
+      var expression = "*";
       if (choise == 1) {
         if (input.step == "*") {
-          cron = `${input.every}`;
+          expression = `${input.every}`;
         } else {
-          cron = `${input.every}/${input.step}`;
+          expression = `${input.every}/${input.step}`;
         }
       } else if (
         choise == 2 &&
@@ -193,17 +193,17 @@ customElements.define(
       ) {
         let min = parseInt(input.rangeMin);
         let max = parseInt(input.rangeMax);
-        if (!(min >= max)) {
-          cron = `${input.rangeMin}-${input.rangeMax}`;
+        if (min < max) {
+          expression = `${input.rangeMin}-${input.rangeMax}`;
         }
       } else if (choise == 3 && input.spesific.length != 0) {
-        cron = "";
+        expression = "";
         input.spesific.forEach((m) => {
-          cron += m + ",";
+          expression += m + ",";
         });
-        cron = cron.slice(0, cron.length - 1);
+        expression = expression.slice(0, expression.length - 1);
       }
-      this.value = cron;
+      this.value = expression;
     }
     eventListen(attr) {
       var self = this;
@@ -397,43 +397,43 @@ customElements.define(
         });
       });
     }
-    getTypeCron(cron) {
-      if (cron.includes("/") || cron.includes("*")) return 1;
-      else if (cron.includes("-")) return 2;
+    getTypeCron(expresion) {
+      if (expresion.includes("/") || expresion.includes("*")) return 1;
+      else if (expresion.includes("-")) return 2;
       return 3;
     }
-    getTypeStep(cron) {
+    getTypeStep(expresion) {
       const separator = "/";
       var step = {
         every: "*",
         step: "*",
       };
-      if (!cron.includes(separator) && cron != "*") {
-        step.every = cron;
-      } else if (cron.includes("*") && cron.includes(separator)) {
-        step.step = cron.split(separator)[1];
-      } else if (cron.includes(separator)) {
-        var c = cron.split(separator);
+      if (!expresion.includes(separator) && expresion != "*") {
+        step.every = expresion;
+      } else if (expresion.includes("*") && expresion.includes(separator)) {
+        step.step = expresion.split(separator)[1];
+      } else if (expresion.includes(separator)) {
+        var c = expresion.split(separator);
         step.every = c[0];
         step.step = c[1];
       }
       return step;
     }
-    getTypeRange(cron) {
+    getTypeRange(expresion) {
       const separator = "-";
       var range = {
         min: "0",
         max: "0",
       };
-      if (cron.includes(separator)) {
-        var c = cron.split(separator);
+      if (expresion.includes(separator)) {
+        var c = expresion.split(separator);
         range.min = c[0];
         range.max = c[1];
       }
       return range;
     }
-    getTypeChoise(cron) {
-      return cron.split(",");
+    getTypeChoise(expresion) {
+      return expresion.split(",");
     }
     getCron(cronExpresion) {
       var forms = this.querySelectorAll("form");
@@ -453,27 +453,26 @@ customElements.define(
       switch (type) {
         case 1:
           var step = this.getTypeStep(value);
+          var decrementStep = 1 - decrement;
           form.querySelector("*[match=every]").selectedIndex =
-            parseInt(step["every"]) + 1;
+            parseInt(step["every"]) + decrementStep;
           form.querySelector("*[match=step]").selectedIndex =
-            parseInt(step["step"]) + 1;
+            parseInt(step["step"]) + decrementStep;
           break;
         case 2:
           var range = this.getTypeRange(value);
-          console.dir(this.getHasZero());
           form.querySelector("*[match=rangeMin]").selectedIndex =
             parseInt(range["min"]) - decrement;
           form.querySelector("*[match=rangeMax]").selectedIndex =
             parseInt(range["max"]) - decrement;
           break;
         case 3:
-          var choises = this.getTypeChoise(value);
+          var cs = this.getTypeChoise(value);
           form
             .querySelectorAll("*[match=spesific] input")
             .forEach(function (element, index) {
-              if (choises.includes((index + 1).toString())) {
+              if (cs.includes((index + decrement).toString())) {
                 element.checked = true;
-                console.info("Ok: " + index);
               }
             });
           break;
@@ -507,9 +506,9 @@ customElements.define(
       this.getElement(".modal").classList.toggle("show");
     }
     generateCron(pos, values, value) {
-      var values = values.split(" ");
-      values[pos] = value;
-      return values.join(" ");
+      var val = values.split(" ");
+      val[pos] = value;
+      return val.join(" ");
     }
     sendEvent() {
       var input4 = this.getElement(".cronInsideInput");
