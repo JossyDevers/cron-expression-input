@@ -460,7 +460,6 @@ customElements.define(
           break;
         case 2:
           var range = this.getTypeRange(value);
-          console.dir(this.getHasZero());
           form.querySelector("*[match=rangeMin]").selectedIndex =
             parseInt(range["min"]) - decrement;
           form.querySelector("*[match=rangeMax]").selectedIndex =
@@ -473,7 +472,6 @@ customElements.define(
             .forEach(function (element, index) {
               if (choises.includes((index + 1).toString())) {
                 element.checked = true;
-                console.info("Ok: " + index);
               }
             });
           break;
