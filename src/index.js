@@ -453,10 +453,11 @@ customElements.define(
       switch (type) {
         case 1:
           var step = this.getTypeStep(value);
+          var decrementStep = 1 - decrement;
           form.querySelector("*[match=every]").selectedIndex =
-            parseInt(step["every"]) + 1;
+            parseInt(step["every"]) + decrementStep;
           form.querySelector("*[match=step]").selectedIndex =
-            parseInt(step["step"]) + 1;
+            parseInt(step["step"]) + decrementStep;
           break;
         case 2:
           var range = this.getTypeRange(value);
@@ -470,7 +471,7 @@ customElements.define(
           form
             .querySelectorAll("*[match=spesific] input")
             .forEach(function (element, index) {
-              if (cs.includes((index + 1).toString())) {
+              if (cs.includes((index + decrement).toString())) {
                 element.checked = true;
               }
             });
