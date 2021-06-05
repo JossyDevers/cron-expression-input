@@ -34,6 +34,12 @@ class CronComponent extends HTMLElement {
       });
     });
   }
+  getNumber(n) {
+    return n.toString().padStart(2, "0");
+  }
+  getHasZero() {
+    return this.hasZero ? 0 : 1;
+  }
   increaseBrightness(hex, percent) {
     hex = hex.replace(/^\s*#|\s*$/g, "");
 
@@ -146,12 +152,6 @@ customElements.define(
       this.addSpesificOptions("spesific");
       this.eventListen("select");
       this.eventListen("input");
-    }
-    getNumber(n) {
-      return n.toString().padStart(2, "0");
-    }
-    getHasZero() {
-      return this.hasZero ? 0 : 1;
     }
     addSelectOptions(attr) {
       var match = this.getElement("*[match=" + attr + "]");
@@ -330,7 +330,15 @@ customElements.define(
         self.validateLongitud(e);
       });
       this.addEvent(".cronButtonUI", "click", function () {
-        self.currentValue = self.getAttribute("value");
+        self.querySelectorAll("form").forEach(function (element) {
+          element.reset();
+        });
+        if (self.getElementsByClassName("cronInsideInput").length != 0) {
+          self.currentValue =
+            self.getElementsByClassName("cronInsideInput")[0].value;
+          if (self.currentValue.split(" ").length == 5)
+            self.getCron(self.currentValue);
+        }
         self.modalToggle();
       });
       this.addEvent(".cronClose", "click", function () {
@@ -389,7 +397,88 @@ customElements.define(
         });
       });
     }
-
+    getTypeCron(cron) {
+      if (cron.includes("/") || cron.includes("*")) return 1;
+      else if (cron.includes("-")) return 2;
+      return 3;
+    }
+    getTypeStep(cron) {
+      const separator = "/";
+      var step = {
+        every: "*",
+        step: "*",
+      };
+      if (!cron.includes(separator) && cron != "*") {
+        step.every = cron;
+      } else if (cron.includes("*") && cron.includes(separator)) {
+        step.step = cron.split(separator)[1];
+      } else if (cron.includes(separator)) {
+        var c = cron.split(separator);
+        step.every = c[0];
+        step.step = c[1];
+      }
+      return step;
+    }
+    getTypeRange(cron) {
+      const separator = "-";
+      var range = {
+        min: "0",
+        max: "0",
+      };
+      if (cron.includes(separator)) {
+        var c = cron.split(separator);
+        range.min = c[0];
+        range.max = c[1];
+      }
+      return range;
+    }
+    getTypeChoise(cron) {
+      return cron.split(",");
+    }
+    getCron(cronExpresion) {
+      var forms = this.querySelectorAll("form");
+      var crons = cronExpresion.split(" ");
+      this.setCronInTab(forms[0], crons[0], this.getTypeCron(crons[0]));
+      this.setCronInTab(forms[1], crons[1], this.getTypeCron(crons[1]));
+      this.setCronInTab(forms[2], crons[2], this.getTypeCron(crons[2]), 1);
+      this.setCronInTab(forms[3], crons[3], this.getTypeCron(crons[3]), 1);
+      this.setCronInTab(forms[4], crons[4], this.getTypeCron(crons[4]));
+    }
+    setCronInTab(form, value, type, decrement = 0) {
+      var choises = form.querySelectorAll("input[name='choise']");
+      choises.forEach(function (choise) {
+        choise.removeAttribute("checked");
+      });
+      choises[type - 1].checked = true;
+      switch (type) {
+        case 1:
+          var step = this.getTypeStep(value);
+          form.querySelector("*[match=every]").selectedIndex =
+            parseInt(step["every"]) + 1;
+          form.querySelector("*[match=step]").selectedIndex =
+            parseInt(step["step"]) + 1;
+          break;
+        case 2:
+          var range = this.getTypeRange(value);
+          console.dir(this.getHasZero());
+          form.querySelector("*[match=rangeMin]").selectedIndex =
+            parseInt(range["min"]) - decrement;
+          form.querySelector("*[match=rangeMax]").selectedIndex =
+            parseInt(range["max"]) - decrement;
+          break;
+        case 3:
+          var choises = this.getTypeChoise(value);
+          form
+            .querySelectorAll("*[match=spesific] input")
+            .forEach(function (element, index) {
+              if (choises.includes((index + 1).toString())) {
+                element.checked = true;
+                console.info("Ok: " + index);
+              }
+            });
+          break;
+      }
+    }
     validateLongitud(e) {
       var values = e.target.value.trim().split(" ");
       if (values.length > 5) {
