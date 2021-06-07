@@ -1,3 +1,7 @@
+var ceInputLangInternal = {};
+import lang from "./cultures";
+if (typeof ceInputLang == "undefined") ceInputLangInternal = lang;
+else ceInputLangInternal = ceInputLang;
 const cron = require("cron-validator");
 
 class CronComponent extends HTMLElement {
@@ -89,15 +93,15 @@ customElements.define(
             <div class='panel panel-default' style='margin-right: 2.5px; width: 50%; height: 132px;'>
                 <div class='panel-heading'>
                     <div style='display: flex;'> <input class='propagationClass form-check-input' type='radio' name='choise' value='1'
-                            match='choise' checked> <span style='margin-left: 10px;'>Step</span> </div>
+                            match='choise' checked> <span style='margin-left: 10px;'>${ceInputLangInternal.stepChoise}</span> </div>
                 </div>
                 <div class='panel-body' style='display: flex !important;'>
                     <div class='propagationClass form-group' style='margin-right: 5px; width: 50%;'> <label
-                            for='everySelect'>Every</label> <select match='every' class='form-control'
+                            for='everySelect'>${ceInputLangInternal.every}</label> <select match='every' class='form-control'
                             style='width: 100%;'>
                             <option>*</option>
                         </select> </div>
-                    <div class='form-group' style='margin-left: 5px; width: 50%;'> <label for='stepSelect'>Step</label>
+                    <div class='form-group' style='margin-left: 5px; width: 50%;'> <label for='stepSelect'>${ceInputLangInternal.step}</label>
                         <select match='step' class='propagationClass form-control' style='width: 100%;'>
                             <option>*</option>
                         </select> </div>
@@ -106,17 +110,17 @@ customElements.define(
             <div class='panel panel-default' style='margin-left: 2.5px; width: 50%; height: 132px;'>
                 <div class='panel-heading'>
                     <div style='display: flex;'> <input class='propagationClass form-check-input' type='radio' name='choise' value='2'
-                            match='choise'> <span style='margin-left: 10px;'>Range</span> </div>
+                            match='choise'> <span style='margin-left: 10px;'>${ceInputLangInternal.rangeChoise}</span> </div>
                 </div>
                 <div class='panel-body'>
                     <div class='form-group'>
                         <div style='display: flex;'>
                             <div style='width: 50%; margin-right: 5px;'> <label class='form-check-label'
-                                    for='exampleRadios1'>Min</label> <select match='rangeMin'
+                                    for='exampleRadios1'>${ceInputLangInternal.min}</label> <select match='rangeMin'
                                     class='propagationClass form-control' style='width: 100%;'>
                                 </select> </div>
                             <div style='width: 50%; margin-right: 5px;'> <label class='form-check-label'
-                                    for='exampleRadios1'>Max</label> <select match='rangeMax'
+                                    for='exampleRadios1'>${ceInputLangInternal.max}</label> <select match='rangeMax'
                                     class='propagationClass form-control' style='width: 100%;'>
                                 </select> </div>
                         </div>
@@ -127,7 +131,7 @@ customElements.define(
         <div class='panel panel-default' style='margin: 0px !important; padding: 0px !important; height: 214px;'>
             <div class='panel-heading'>
                 <div style='display: flex;'> <input class='propagationClass form-check-input' type='radio' name='choise' value='3'
-                        match='choise'> <span style='margin-left: 10px;'>Choise</span> </div>
+                        match='choise'> <span style='margin-left: 10px;'>${ceInputLangInternal.choise}</span> </div>
             </div>
             <div class='panel-body' style="padding-top: 6px !important;">
                 <div match='spesific' class='form-group'
@@ -254,7 +258,7 @@ customElements.define(
 
       var template = `
           <div class="cronInput" style="display: flex !important; width: ${this.width} !important; height: ${this.height} !important;">
-          <input class="cronInsideInput" type="text" class="form-control" placeholder="Cron Expression">
+          <input class="cronInsideInput" type="text" class="form-control" placeholder="${ceInputLangInternal.inputPlaceholder}">
           <button type="button" class="cronButtonUI btn btn-custom" style="font-size: 114% !important; border-color: ${this.colorMain} !important; background-color: ${this.colorSecond} !important;">
               <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil-square" fill="white">
               <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
@@ -262,7 +266,7 @@ customElements.define(
             </svg>
           </button>
         </div>
-<small class="cronexpressionError hiden" style="display: none; color: red !important; margin-top: 5px !important; margin-bottom: 5px !important;">expression cron invalida, try with (* * * * *)</small>
+<small class="cronexpressionError hiden" style="display: none; color: red !important; margin-top: 5px !important; margin-bottom: 5px !important;">${ceInputLangInternal.invalidCron}</small>
 <div class="modal" tabindex="-1">
     <div class="modal-dialog" style="width: 893px !important;">
         <div class="modal-content" style="height: 480px !important">
@@ -286,11 +290,11 @@ customElements.define(
             </div>
             <div class="modal-body" style="padding-top: 0px !important;">
                 <ul class="nav nav-tabs" style="margin-top: 0px;">
-                    <li class="nav-item active in"><a class="nav-link">Minutes</a></li>
-                    <li class="nav-item"><a class="nav-link">Hours</a></li>
-                    <li class="nav-item"><a class="nav-link">Day of Month</a></li>
-                    <li class="nav-item"><a class="nav-link">Month</a></li>
-                    <li class="nav-item"><a class="nav-link">Days of week</a></li>
+                    <li class="nav-item active in"><a class="nav-link">${ceInputLangInternal.minute}</a></li>
+                    <li class="nav-item"><a class="nav-link">${ceInputLangInternal.hours}</a></li>
+                    <li class="nav-item"><a class="nav-link">${ceInputLangInternal.dayOfMonth}</a></li>
+                    <li class="nav-item"><a class="nav-link">${ceInputLangInternal.month}</a></li>
+                    <li class="nav-item"><a class="nav-link">${ceInputLangInternal.daysOfWeek}</a></li>
                 </ul>
                 <div class="tab-content" style="margin-top: 13px !important;">
                     <div class="tab-pane active in">
