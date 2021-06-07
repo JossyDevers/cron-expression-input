@@ -27,7 +27,7 @@ module.exports = {
       filename: './index.html',
       templateContent:
 `<!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -35,7 +35,14 @@ module.exports = {
     <link rel="stylesheet" href="../src/index.css" />
   </head>
   <body>
-    <cron-expression-input height="34px" width="250px" color="d58512"></cron-expression-input>
+    <form>
+      <cron-expression-input
+        height="34px" width="250px" color="d58512"
+        required="false" hotValidate="true"
+        value="* * * * *"
+      ></cron-expression-input>
+      <input type="submit" value="Send Form" style="margin-top: 20px;" />
+    </form>
   </body>
 </html>`
     })

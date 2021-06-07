@@ -247,7 +247,8 @@ customElements.define(
     connectedCallback() {
       this.width = this.getAttribute("width");
       this.height = this.getAttribute("height");
-
+      this.required = this.getAttribute("required") == "true";
+      this.hotValidate = this.getAttribute("hotValidate") == "true";
       var color = this.getAttribute("color").replace("#", "");
       this.colorMain = "#" + color;
       this.colorSecond = this.increaseBrightness(color, 10);
@@ -367,15 +368,17 @@ customElements.define(
         });
         elements[index].parentNode.setAttribute("class", "tab-pane active in");
       });
-      this.addEvent(".cronInsideInput", "change", function (e) {
-        var error = self.getElement(".cronexpressionError");
-        if (!cron.isValidCron(e.value)) {
-          error.classList.replace("hiden", "show");
-        } else {
-          error.classList.replace("show", "hiden");
-        }
-        self.setValue(e["value"]);
-      });
+      var formParent = self.querySelector(".cronInsideInput").closest("form");
+      if (formParent != null) {
+        formParent.closest("form").addEventListener("submit", function (e) {
+          if (!self.validator(self)) e.preventDefault();
+        });
+      }
+      if (self.hotValidate) {
+        this.addEvent(".cronInsideInput", "change", function (e) {
+          self.validator(self);
+        });
+      }
       this.addEvent("cron-fields", "change", function (e) {
         var value = true;
         var node = e.parentNode;
@@ -400,6 +403,22 @@ customElements.define(
           e.stopPropagation();
         });
       });
+
+      self.validator(self);
+    }
+    validator(self) {
+      var insideInput = self.querySelector(".cronInsideInput");
+      var error = self.getElement(".cronexpressionError");
+      if (
+        (insideInput.value.length == 0 && self.required) ||
+        (insideInput.value.length != 0 && !cron.isValidCron(insideInput.value))
+      ) {
+        error.classList.replace("hiden", "show");
+        return false;
+      }
+      error.classList.replace("show", "hiden");
+      self.setValue(insideInput["value"]);
+      return true;
     }
     getTypeCron(expresion) {
       if (expresion.includes("/") || expresion.includes("*")) return 1;
