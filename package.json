@@ -35,7 +35,8 @@
     "build": "webpack --config webpack.config.js"
   },
   "dependencies": {
-    "cron-validator": "^1.2.1"
+    "cron-validator": "^1.2.1",
+    "cronstrue": "^1.113.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.14.3",
