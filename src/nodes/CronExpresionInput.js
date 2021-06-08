@@ -7,6 +7,7 @@ import { CronComponent } from "./CronComponent";
 import { CronExpresionInputTemplateGenerator } from "../templates/CronExpresionInputTemplate";
 
 const cron = require("cron-validator");
+const cronstrue = require('cronstrue');
 
 export class CronExpresionInput extends CronComponent {
     constructor() {
@@ -201,6 +202,8 @@ export class CronExpresionInput extends CronComponent {
         }
         var input3 = this.getElement(".cronInsideInput");
         input3.value = value;
+
+        this.querySelector(".inputCronMsg").value = cronstrue.toString(value);
         this.sendEvent();
     }
     modalToggle() {

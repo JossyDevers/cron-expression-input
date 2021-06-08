@@ -12,7 +12,7 @@ export function CronExpresionInputTemplateGenerator(obj, objLang) {
 <small class="cronexpressionError hiden" style="display: none; color: red !important; margin-top: 5px !important; margin-bottom: 5px !important;">${objLang.invalidCron}</small>
 <div class="modal" tabindex="-1">
     <div class="modal-dialog" style="width: 893px !important;">
-        <div class="modal-content" style="height: 480px !important">
+        <div class="modal-content" style="height: 490px !important">
             <div class="modal-header" style="height: 0px !important; padding-bottom: 30px !important;">
                 <span class="close2 cronClose">
                     <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-x-circle" fill="${obj.colorMain}" style="font-size: 21px !important;">
@@ -39,7 +39,8 @@ export function CronExpresionInputTemplateGenerator(obj, objLang) {
                     <li class="nav-item"><a class="nav-link">${objLang.month}</a></li>
                     <li class="nav-item"><a class="nav-link">${objLang.daysOfWeek}</a></li>
                 </ul>
-                <div class="tab-content" style="margin-top: 13px !important;">
+                <input class="inputCronMsg form-control" style="width: 100%; margin-top: 10px;" disabled />
+                <div class="tab-content" style="margin-top: 8px !important;">
                     <div class="tab-pane active in">
                         <cron-fields pos="0" input="minute" hasZero="true" every="59" colorMain="${obj.colorMain}" colorSecond="${obj.colorSecond}" />
                     </div>
