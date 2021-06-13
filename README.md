@@ -19,7 +19,7 @@
 
 Install the package from https://www.npmjs.com/cron-expression-input
 ```
-npm install cron-expression-input@1.2.9
+npm install cron-expression-input@1.3.1
 ```
 In your code
 ``` javascript
@@ -32,9 +32,9 @@ require("cron-expression-input"); /* JAVASCRIPT */
 
 Add the CDN to your project
 ``` html
-<link rel="stylesheet" href="https://unpkg.com/cron-expression-input@1.2.9/lib/cron-expression-input.min.css">
-<script src="https://unpkg.com/cron-expression-input@1.2.9/lib/cultures/en-US.js"></script> <!-- Languague (Optional) -->
-<script src="https://unpkg.com/cron-expression-input@1.2.9/lib/cron-expression-input.min.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/cron-expression-input@1.3.1/lib/cron-expression-input.min.css">
+<script src="https://unpkg.com/cron-expression-input@1.3.1/lib/cultures/en-US.js"></script> <!-- Languague (Optional) -->
+<script src="https://unpkg.com/cron-expression-input@1.3.1/lib/cron-expression-input.min.js"></script>
 ```
 
 ### Usage
@@ -48,9 +48,9 @@ Add the CDN to your project
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sample Page</title>
-    <link rel="stylesheet" href="https://unpkg.com/cron-expression-input@1.2.9/lib/cron-expression-input.min.css">
-    <script src="https://unpkg.com/cron-expression-input@1.2.9/lib/cultures/en-US.js"></script> <!-- Languague (Optional) -->
-    <script src="https://unpkg.com/cron-expression-input@1.2.9/lib/cron-expression-input.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/cron-expression-input@1.3.1/lib/cron-expression-input.min.css">
+    <script src="https://unpkg.com/cron-expression-input@1.3.1/lib/cultures/en-US.js"></script> <!-- Languague (Optional) -->
+    <script src="https://unpkg.com/cron-expression-input@1.3.1/lib/cron-expression-input.min.js"></script>
 </head>
 <body>
      <!-- Component -->
@@ -147,7 +147,7 @@ You can pass various attributes to the component to modify its behavior, Example
 
 ```
 import "cron-expression-input/lib/cultures/en-EN.js";
-<script src="https://unpkg.com/cron-expression-input@1.2.9/lib/cultures/en-US.js"></script>
+<script src="https://unpkg.com/cron-expression-input@1.3.1/lib/cultures/en-US.js"></script>
 ```
 
 <ul>
