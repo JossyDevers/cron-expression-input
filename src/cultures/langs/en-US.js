@@ -11,6 +11,6 @@ const ceInputLang = {
   dayOfMonth: "Day of Month",
   month: "Month",
   daysOfWeek: "Days of week",
-  invalidCron: "expression cron invalida, try with (* * * * *)",
+  invalidCron: "Invalid cron expression, try with (* * * * *)",
   inputPlaceholder: "Cron Expression"
 };
