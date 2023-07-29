@@ -5,7 +5,7 @@ const ceInputLang = {
   rangeChoise: "Range",
   min: "Min",
   max: "Max",
-  choise: "Choise",
+  choise: "Choose",
   minute: "Minute",
   hours: "Hours",
   dayOfMonth: "Day of Month",
